@@ -4,6 +4,12 @@
   "description": "发送前判断这句话的难度，给出建议的模型与推理等级：只建议，不改请求。",
   "type": "module",
   "main": "lib/index.js",
+  "bin": {
+    "dsh-tier-brain": "./scripts/cli.mjs"
+  },
+  "scripts": {
+    "test": "node test/eval.mjs && node test/check-v02.mjs && node test/check-v03.mjs && node test/check-events.mjs && node test/server-smoke.mjs"
+  },
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",

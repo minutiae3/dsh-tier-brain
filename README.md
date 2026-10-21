@@ -166,24 +166,59 @@ T3       0    0   15
 
 会打印完整依据：分类、分数、命中信号、置信度；处于高峰时段时多一行错峰提醒。**这些细节只在命令里给你，不往界面上糊。**
 
+再往下是 DSH 里怎么装。
+
+## 命令行也能用
+
+不想开 DSH 的时候，直接问一句：
+
+```bash
+# 装了包（npm i -g dsh-tier-brain）之后
+dsh-tier-brain "帮我重构一下这个模块，顺便补齐边界条件的测试"
+dsh-tier-brain --json "把 D 盘那个未签名的系统服务删掉"
+```
+
+```bash
+# 没装全局包，直接在源码目录里跑
+node scripts/cli.mjs "帮我重构一下这个模块"
+echo "帮我把这个插件的 README 重写一遍" | node scripts/cli.mjs
+```
+
+输出：
+
+```
+建议：deepseek-v4-pro · high  [强档]
+类型：REFACTOR　评分：67
+依据：REFACTOR；多重硬约束 +7
+```
+
+`--json` 输出结构化结果，方便脚本调用。
+
 ## 安装 / 更新
 
-**方式一：本地目录（推荐，不用联网）**
+**方式一：npm（推荐）**
+
+```powershell
+cd $env:USERPROFILE\.dsh\profiles\desktop
+npm install dsh-tier-brain
+```
+
+然后确认 profile 的 `package.json` 里 `dsh.profile.bundles` 包含 `dsh-tier-brain`（npm 只负责装包，不会自动往 bundles 里加）。注意 `bundles` 里要写包名、`dependencies` 里要有对应条目，两处都得在。
+
+**方式二：本地目录（不用联网）**
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-**方式二：分发包（tgz）**
+**方式三：分发包（tgz）**
 
 ```powershell
 cd $env:USERPROFILE\.dsh\profiles\desktop
 npm install file:C:/path/to/dsh-tier-brain-0.1.0.tgz
 ```
 
-装完确认 profile 的 `package.json` 里 `dsh.profile.bundles` 包含 `dsh-tier-brain`（方式二只装了包，不会自动加 bundle，需要手动补一行）。
-
-脚本会：备份 profile 的 `package.json` → 复制 `lib/` → 把 `dsh-tier-brain` 加进 `dsh.profile.bundles`（已经在里面就不重复加）。**装完必须完全退出 DSH 再重开**，宿主代码才会重新加载。
+`install.ps1` 会：备份 profile 的 `package.json` → 复制 `lib/` → 把 `dsh-tier-brain` 加进 `dsh.profile.bundles`（已经在里面就不重复加）。**装完必须完全退出 DSH 再重开**，宿主代码才会重新加载。
 
 回滚：把 `package.json.bak-tier-brain` 覆盖回 `package.json`，删掉 `node_modules\dsh-tier-brain`。
 
@@ -204,5 +239,6 @@ npm install file:C:/path/to/dsh-tier-brain-0.1.0.tgz
   - 结合上下文与记忆：读取每轮真实 `usage`，≥4 轮且 ≥48K 时不再推荐省档，卡片显示 `· 长上下文`；
   - 高峰时段显示 `· 高峰`；
   - 用本机 19 个会话、122 条真实提问做评测：整体 97.5%（dev 98.4% / holdout 96.7%）；
-  - 测试：`test/eval.mjs`、`test/check-v02.mjs`、`test/check-v03.mjs`、`test/check-events.mjs`、`test/server-smoke.mjs`。
+  - 测试：`test/eval.mjs`、`test/check-v02.mjs`、`test/check-v03.mjs`、`test/check-events.mjs`、`test/server-smoke.mjs`；
+  - 附带 `dsh-tier-brain` 命令行（`scripts/cli.mjs`），不开 DSH 也能给一句话打分。
 - 0.0.1：初版，难度条 + "为什么" + 词表加分（已废弃）。
