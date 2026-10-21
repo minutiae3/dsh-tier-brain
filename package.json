@@ -1,0 +1,46 @@
+{
+  "name": "dsh-tier-brain",
+  "version": "0.1.0",
+  "description": "发送前判断这句话的难度，给出建议的模型与推理等级：只建议，不改请求。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "model-routing",
+    "reasoning-effort",
+    "token-cost"
+  ],
+  "license": "MIT",
+  "author": "minutiae3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minutiae3/dsh-tier-brain.git"
+  },
+  "homepage": "https://github.com/minutiae3/dsh-tier-brain#readme",
+  "bugs": {
+    "url": "https://github.com/minutiae3/dsh-tier-brain/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ]
+}
