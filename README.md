@@ -180,8 +180,8 @@ dsh-tier-brain --json "把 D 盘那个未签名的系统服务删掉"
 
 ```bash
 # 没装全局包，直接在源码目录里跑
-node scripts/cli.mjs "帮我重构一下这个模块"
-echo "帮我把这个插件的 README 重写一遍" | node scripts/cli.mjs
+node scripts/dsh-tier-brain.mjs "帮我重构一下这个模块"
+echo "帮我把这个插件的 README 重写一遍" | node scripts/dsh-tier-brain.mjs
 ```
 
 输出：
@@ -240,5 +240,5 @@ npm install file:C:/path/to/dsh-tier-brain-0.1.0.tgz
   - 高峰时段显示 `· 高峰`；
   - 用本机 19 个会话、122 条真实提问做评测：整体 97.5%（dev 98.4% / holdout 96.7%）；
   - 测试：`test/eval.mjs`、`test/check-v02.mjs`、`test/check-v03.mjs`、`test/check-events.mjs`、`test/server-smoke.mjs`；
-  - 附带 `dsh-tier-brain` 命令行（`scripts/cli.mjs`），不开 DSH 也能给一句话打分。
+  - 附带 `dsh-tier-brain` 命令行（`scripts/dsh-tier-brain.mjs`），不开 DSH 也能给一句话打分。
 - 0.0.1：初版，难度条 + "为什么" + 词表加分（已废弃）。

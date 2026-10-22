@@ -1,6 +1,6 @@
 {
   "name": "dsh-tier-brain",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "发送前判断这句话的难度，给出建议的模型与推理等级：只建议，不改请求。",
   "type": "module",
   "main": "lib/index.js",
