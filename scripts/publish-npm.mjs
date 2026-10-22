@@ -45,13 +45,24 @@ const versionMeta = {
   },
 };
 
+// readme 让 npm 页面直接显示 README（不发的话包页面是空的）
+let readme = '';
+try {
+  readme = readFileSync(join(root, 'README.md'), 'utf8');
+} catch {
+  /* 没有 README 就不带 */
+}
+
 const body = {
-  _id: pkg.name,
+  // 注意：npm 要求 _id 用 URL 编码后的包名（作用域包必须是 %40scope%2Fname），
+  // 否则会返回 400 "Invalid package name"。这里包名无特殊字符仍按要求编码。
+  _id: encodeURIComponent(pkg.name),
   name: pkg.name,
   description: pkg.description,
   'dist-tags': { latest: pkg.version },
   versions: { [pkg.version]: versionMeta },
-  readme: '',
+  readme,
+  access: 'public',
   _attachments: {
     [tgzName]: {
       content_type: 'application/octet-stream',
@@ -65,9 +76,12 @@ console.log(`发布 ${pkg.name}@${pkg.version}（${buf.length} 字节）…`);
 const res = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg.name)}`, {
   method: 'PUT',
   headers: {
+    // npm registry 同时接受 Bearer 与基本认证；Automation token 用 Bearer 最简。
     authorization: `Bearer ${token}`,
     'content-type': 'application/json',
-    'user-agent': 'dsh-tier-brain-publish',
+    // npm 发布要求带 npm-command，部分镜像/网关会据此判断来源
+    'npm-command': 'publish',
+    'user-agent': 'dsh-tier-brain-publish/0.1.0',
   },
   body: JSON.stringify(body),
 });

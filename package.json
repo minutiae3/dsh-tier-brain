@@ -5,7 +5,7 @@
   "type": "module",
   "main": "lib/index.js",
   "bin": {
-    "dsh-tier-brain": "./scripts/cli.mjs"
+    "dsh-tier-brain": "./scripts/dsh-tier-brain.mjs"
   },
   "scripts": {
     "test": "node test/eval.mjs && node test/check-v02.mjs && node test/check-v03.mjs && node test/check-events.mjs && node test/server-smoke.mjs"
